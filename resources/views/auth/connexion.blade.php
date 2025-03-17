@@ -6,10 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {{-- @vite('resources/css/app.css') --}}
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
+    
     <title>{{$title}}</title>
 </head>
 <body class="bg-" >
+    
     {{-- style="background-image: url({{asset('img/12.png')}})" --}}
     @auth
         {{-- {{Auth::user()}} --}}
