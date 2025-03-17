@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('/')->controller(App\Http\Controllers\AuthController::class)->group(function(){ 
-    Route::get('/','connexion')->name('auth.connexion');
+Route::prefix('/yonnee')->controller(App\Http\Controllers\AuthController::class)->group(function(){ 
+    Route::get('/connexion/','connexion')->name('auth.connexion');
     Route::delete('/deconnexion/','logout')->name('auth.deconnexion');
     Route::post('/connexion/','seconnect')->name('auth.post.connexion');
     Route::get('/dashboard/','dashboard')->name('auth.dashboard')->middleware('auth');
