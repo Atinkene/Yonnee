@@ -17,7 +17,7 @@ return [
 
     'paths' => ['api/*'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['http://localhost:3000','http://10.106.98.154:3000/'],
+    'allowed_origins' => ['*'],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
     'max_age' => 0,
