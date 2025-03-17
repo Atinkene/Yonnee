@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+Route::get('/', function () {
+    return redirect()->route('auth.connexion');
+});
 
 Route::prefix('/yonnee')->controller(App\Http\Controllers\AuthController::class)->group(function(){ 
     Route::get('/connexion/','connexion')->name('auth.connexion');
