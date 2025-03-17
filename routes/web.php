@@ -18,6 +18,7 @@ Route::get('/', function () {
 
 Route::prefix('/yonnee')->controller(App\Http\Controllers\AuthController::class)->group(function(){ 
     Route::get('/connexion/','connexion')->name('auth.connexion');
+    Route::get('/inscription/','inscription')->name('auth.inscription');
     Route::delete('/deconnexion/','logout')->name('auth.deconnexion');
     Route::post('/connexion/','seconnect')->name('auth.post.connexion');
     Route::get('/dashboard/','dashboard')->name('auth.dashboard')->middleware('auth');

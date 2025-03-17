@@ -15,35 +15,61 @@ use App\Http\Requests\LoginRequest;
 class AuthController extends Controller
 {
     // Inscription
-    public function register(Request $request)
+    public function inscription(Request $request)
     {
-        $request->validate([
-            'matricule' => 'required|string|unique:users',
-            'prenom' => 'required|string|max:255',
-            'nom' => 'required|string|max:255',
-            'mail' => 'required|string|email|unique:users',
-            'numeroTelephone' => 'required|string|max:20',
-            'password' => 'required|string|min:6|confirmed',
-            'roles' => 'required|array',
-            'roles.*' => 'exists:roles,intitule', // Vérifie que chaque rôle existe
-            'idSUO' => 'required|exists:sousuniteorganisationnelles,id', // Vérifie que la sous-unité existe
-        ]);
+        
 
         DB::transaction(function () use ($request, &$user) {
-            // Créer l'utilisateur
-            $user = User::create([
-                'matricule' => $request->matricule,
-                'prenom' => $request->prenom,
-                'nom' => $request->nom,
-                'mail' => $request->mail,
-                'numeroTelephone' => $request->numeroTelephone,
-                'password' => Hash::make($request->password),
-                'idSUO' => $request->idSUO, // Associer la sous-unité
+            $suo1 = SousUniteOrganisationnelle::create([
+                'type' => 'DIRECTION',
+                'intitule' => 'Direction Générale'
             ]);
 
-            // Associer les rôles à l'utilisateur
-            $roles = Role::whereIn('intitule', $request->roles)->get();
-            $user->roles()->attach($roles);
+            $suo2 = SousUniteOrganisationnelle::create([
+                'type' => 'SERVICE',
+                'intitule' => 'Service Informatique'
+            ]);
+
+            // 2. Créer des rôles
+            $adminRole = Role::create(['intitule' => 'ADMIN']);
+            $personnelRole = Role::create(['intitule' => 'PERSONNEL']);
+
+            // 3. Créer des utilisateurs
+            $adminUser = User::create([
+                'matricule' => '12345',
+                'mail' => 'admin@example.com',
+                'prenom' => 'Admin',
+                'nom' => 'User',
+                'numeroTelephone' => '123456789',
+                'password' => Hash::make('password'),
+                'idSUO' => $suo1->id // Lier à la sous-unité organisationnelle 1
+            ]);
+
+            $personnelUser = User::create([
+                'matricule' => '67890',
+                'mail' => 'personnel@example.com',
+                'prenom' => 'Personnel',
+                'nom' => 'User',
+                'numeroTelephone' => '987654321',
+                'password' => Hash::make('password'),
+                'idSUO' => $suo2->id // Lier à la sous-unité organisationnelle 2
+            ]);
+
+            // 4. Assigner des rôles aux utilisateurs via la table pivot (rolepersonnels)
+            $adminUser->roles()->attach($adminRole->id);
+            $personnelUser->roles()->attach($personnelRole->id);
+
+            // 5. Créer des besoins pour les utilisateurs
+            $besoin1 = Besoin::create([
+                'items' => 'Ordinateur portable',
+                'description' => 'Ordinateur portable pour travail à distance',
+                'quantite' => 1,
+                'prixUnitaire' => 1000,
+                'totaux' => 1000,
+                'categorie' => 'MATERIEL_INFORMATIQUE',
+                'idPersonnel' => $personnelUser->id, // Associer à l'utilisateur personnel
+                'idSession' => 1 // ID de session fictif, à remplacer par une session existante
+            ]);
         });
 
         return response()->json(['message' => 'Utilisateur créé avec succès'], 201);
