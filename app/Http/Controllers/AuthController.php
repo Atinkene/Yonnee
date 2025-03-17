@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\LoginRequest;
+use App\Models\Besoin;
 
 class AuthController extends Controller
 {
