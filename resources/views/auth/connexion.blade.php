@@ -1329,7 +1329,22 @@
 }    
     </style>
 </head>
-<body class="bg-" >
+<body class="relative" >
+  <div class="p-4 bg-gray-100 rounded-lg shadow-md fixed top-0 left-0">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Paramètres de connexion par défaut</h2>
+    
+    <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700">Administrateur</h3>
+        <p><strong>Matricule :</strong> 12345</p>
+        <p><strong>Mot de passe :</strong> password</p>
+    </div>
+    
+    <div>
+        <h3 class="text-lg font-semibold text-gray-700">Personnel</h3>
+        <p><strong>Matricule :</strong> 67890</p>
+        <p><strong>Mot de passe :</strong> password</p>
+    </div>
+</div>
     
     {{-- style="background-image: url({{asset('img/12.png')}})" --}}
     @auth
